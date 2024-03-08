@@ -1,24 +1,24 @@
-import Functions
+import Game_Functions as GF
 
 
 if __name__ == '__main__':
     game_on = 1
     while game_on == 1:
-        option = Functions.menu()
+        option = GF.menu()
         if option == 1:
-            difficulty_level = Functions.difficulty_menu()
+            difficulty_level = GF.difficulty_menu()
             if difficulty_level == 1:
                 file_name = "Easy"
-                Functions.game(file_name)
+                GF.game(file_name)
             if difficulty_level == 2:
                 file_name = "Medium"
-                Functions.game(file_name)
+                GF.game(file_name)
             if difficulty_level == 3:
                 file_name = "Hard"
-                Functions.game(file_name)
+                GF.game(file_name)
             if difficulty_level == 4:
                 file_name = "Very Hard"
-                Functions.game(file_name)
+                GF.game(file_name)
         if option == 2:
             new_word = input("Introduce a new word:")
             if not new_word.isalpha():
