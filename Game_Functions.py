@@ -14,7 +14,6 @@ def search_letter_in_word(letter, word):
     return app_no
 
 
-
 def replace_letter_in_word(app_no, word, empty_word, letter):
     aux = list(empty_word)
     i = 0

@@ -15,16 +15,41 @@ height = primary_monitor.height
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((width, height))
 player_name = "ANON"
+letter = ""
+word = ""
+hidden_word = ""
+health = 0
+app_no = 0
 
 #Functions
 
+
+def CheckLetter(input):
+    global word
+    global hidden_word
+    global app_no
+    global health
+    app_no = GF.search_letter_in_word(input, word)
+    if app_no > 0:
+        hidden_word=GF.replace_letter_in_word(app_no, word, hidden_word, input)
+    else:
+        health -= 1
+
+
+def ChangePlayerName(input):
+   global player_name
+   player_name = input
 
 def validate_letter(letter, game_GUI):
     if letter.unicode.isalpha() and letter.isdigit == False:
         game_GUI.get_input_data()[0].set_value(letter.unicode)
 
 
+
 def game_start(difficulty_level):
+    global word
+    global hidden_word
+    global health
     game_GUI = pygame_menu.Menu(f"Difficulty: {difficulty_level}", width, height, theme=pygame_menu.themes.THEME_DARK)
     file_name = ""
     health = 5
@@ -42,24 +67,16 @@ def game_start(difficulty_level):
     hidden_word_GUI = game_GUI.add.label(hidden_word)
     health_GUI = game_GUI.add.label(f"Lives Left: {health}")
     text_GUI = game_GUI.add.label("Introduce a letter:\n")
-    letter = game_GUI.add.text_input("", maxchar=1, onkeypress=lambda x: validate_letter(x, game_GUI))
-    app_no = GF.search_letter_in_word(letter, word)
-    if app_no == 0:
-        health -= 1
+    if health != 0:
+        text_input_GUI=game_GUI.add.text_input("", maxchar=1, onreturn=CheckLetter)
     else:
-        GF.replace_letter_in_word(app_no,word,hidden_word,letter)
-    if health <= 0:
         text_GUI = game_GUI.add.label("You Lost\n")
-        letter.hide()
-        diff_GUI = game_GUI.add.button("Return to Difficulty Menu", difficulty_level)
-        main_GUI = game_GUI.add.button("Return to Main Menu", main_menu)
     game_GUI.mainloop(screen)
 
 
 def player_name_menu():
     player_menu = pygame_menu.Menu('Player Name', width, height, theme=pygame_menu.themes.THEME_DARK)
-    player_menu.add.text_input('Set Player Name:', maxchar=4, onreturn=difficulty_menu)
-
+    player_menu.add.text_input('Set Player Name:', maxchar=4, onreturn=difficulty_menu, onchange=ChangePlayerName)
     player_menu.mainloop(screen)
 
 

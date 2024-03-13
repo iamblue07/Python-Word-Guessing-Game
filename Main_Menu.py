@@ -17,7 +17,5 @@ while running:
     MF.screen.fill("black")
 
     MF.main_menu()
-
     pygame.display.flip()
-
 pygame.quit()
